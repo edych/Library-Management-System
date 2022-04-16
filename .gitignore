@@ -49,3 +49,14 @@ build/
 # Logs
 ######################
 *.log
+
+# The files generated/updated by vaadin-maven-plugin
+node_modules/
+frontend/generated/
+pnpmfile.js
+vite.generated.ts
+webpack.generated.js
+package-lock.json
+
+*.xml.versionsBackup
+/frontend/index.html
