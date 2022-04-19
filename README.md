@@ -1,4 +1,7 @@
 # **<p align="center">📚 Library Management System 📚</p>**
+<hr>
+[![codecov](https://codecov.io/gh/edych/Library-Management-System/branch/main/graph/badge.svg?token=ZDNRFFVSE4)](https://codecov.io/gh/edych/Library-Management-System)
+[![CircleCI](https://circleci.com/gh/edych/Library-Management-System/tree/main.svg?style=svg)](https://circleci.com/gh/edych/Library-Management-System/tree/main)
 
 ### Requirements
 * Java 11
