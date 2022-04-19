@@ -1,18 +1,30 @@
 package com.system.management.library.librarymanagementsystem.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.ISBN;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @Builder
-@Value
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookDto {
 
-    Long id;
+    @NotEmpty
+    @NotBlank
     String author;
+
+    @NotEmpty
+    @NotBlank
     String title;
+
+    @NotEmpty
+    @NotBlank
+    @ISBN
     String isbn;
 }

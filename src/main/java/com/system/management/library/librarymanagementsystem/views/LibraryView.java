@@ -1,7 +1,7 @@
 package com.system.management.library.librarymanagementsystem.views;
 
-import com.system.management.library.librarymanagementsystem.model.Book;
-import com.system.management.library.librarymanagementsystem.repository.BookRepository;
+import com.system.management.library.librarymanagementsystem.dto.BookDto;
+import com.system.management.library.librarymanagementsystem.service.BookService;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -12,17 +12,17 @@ import com.vaadin.flow.router.Route;
 @Route(value = "library", layout = MainLayout.class)
 public class LibraryView extends HorizontalLayout {
 
-    private final BookRepository bookRepository;
-    final Grid<Book> grid;
+    final BookService bookService;
+    final Grid<BookDto> grid;
 
-    public LibraryView(final BookRepository bookRepository) {
+    public LibraryView(final BookService bookService) {
 
-        this.grid = new Grid<>(Book.class);
-        this.bookRepository = bookRepository;
+        this.grid = new Grid<>(BookDto.class);
+        this.bookService = bookService;
 
         setMargin(true);
 
-        if (bookRepository.findAll().isEmpty()) {
+        if (bookService.getAllBooks().isEmpty()) {
 
             Div div = new Div();
             div
@@ -41,6 +41,6 @@ public class LibraryView extends HorizontalLayout {
     }
 
     private void listBooks() {
-        grid.setItems(bookRepository.findAll());
+        grid.setItems(bookService.getAllBooks());
     }
 }
