@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - run: chmod +x mvnw
-      - run: mvn -B clean install
+      - run: ./mvnw clean install
       - codecov/upload
       - persist_to_workspace:
             root: .
