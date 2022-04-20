@@ -1,10 +1,10 @@
 package com.system.management.library.librarymanagementsystem.service;
 
-import com.system.management.library.librarymanagementsystem.config.ValidationConfiguration;
 import com.system.management.library.librarymanagementsystem.dto.BookDto;
 import com.system.management.library.librarymanagementsystem.mapper.BookDtoMapperImpl;
 import com.system.management.library.librarymanagementsystem.model.Book;
 import com.system.management.library.librarymanagementsystem.repository.BookRepository;
+import com.system.management.library.librarymanagementsystem.validator.BookDtoValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -23,7 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = {BookService.class, ValidationConfiguration.class, BookDtoMapperImpl.class})
+@SpringBootTest(classes = {BookService.class, BookDtoMapperImpl.class, BookDtoValidator.class})
+
 class BookServiceTest {
 
     @Autowired
@@ -43,7 +44,7 @@ class BookServiceTest {
         when(bookRepository.save(any())).thenReturn(book);
 
         // then
-        final BookDto responseDto = bookService.addBook(bookDto);
+        final BookDto responseDto = bookService.addBook(bookDto, false);
 
         assertEquals(bookDto.getAuthor(), responseDto.getAuthor());
         assertEquals(bookDto.getTitle(), responseDto.getTitle());
@@ -52,11 +53,11 @@ class BookServiceTest {
 
     private static Stream<Arguments> provideStringsForAuthorValidation() {
         return Stream.of(
-                Arguments.of("Ane Do.e", "Please remove all special characters from 'author' field."),
-                Arguments.of("Ane Do!e", "Please remove all special characters from 'author' field."),
-                Arguments.of("Ane Do{e", "Please remove all special characters from 'author' field."),
-                Arguments.of("Ane", "Field 'author' must consist of forename and surname."),
-                Arguments.of("A B C", "Field 'author' must consist of forename and surname."),
+                Arguments.of("Ane Do.e", "Please remove all special characters from 'Author' field."),
+                Arguments.of("Ane Do!e", "Please remove all special characters from 'Author' field."),
+                Arguments.of("Ane Do{e", "Please remove all special characters from 'Author' field."),
+                Arguments.of("Ane", "Field 'Author' must consist of forename and surname."),
+                Arguments.of("A B C", "Field 'Author' must consist of forename and surname."),
                 Arguments.of("Jane Doe", "Forename or surname must start with 'A'.")
         );
     }
@@ -69,7 +70,7 @@ class BookServiceTest {
 
         // then
         final ValidationException exception = assertThrows(
-                ValidationException.class, () -> bookService.addBook(bookDto));
+                ValidationException.class, () -> bookService.addBook(bookDto, true));
 
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -79,12 +80,10 @@ class BookServiceTest {
                 Arguments.of("Ane Doe", "Title", "123456", "Enter a valid ISBN."),
                 Arguments.of("Ane Doe", "Title", null, "Enter a valid ISBN."),
                 Arguments.of("Ane Doe", "Title", "", "Enter a valid ISBN."),
-                Arguments.of("", "Title", "978-3-16-148410-0",
-                        "Field 'author' must consist of forename and surname."),
-                Arguments.of(null, "Title", "978-3-16-148410-0",
-                        "Field 'author' must consist of forename and surname."),
-                Arguments.of("Ane Doe", "", "978-3-16-148410-0", "Field 'title' can not be empty."),
-                Arguments.of("Ane Doe", null, "978-3-16-148410-0", "Field 'title' can not be empty.")
+                Arguments.of("", "Title", "978-3-16-148410-0", "'Author' can not be empty."),
+                Arguments.of(null, "Title", "978-3-16-148410-0", "'Author' can not be empty."),
+                Arguments.of("Ane Doe", "", "978-3-16-148410-0", "'Title' can not be empty."),
+                Arguments.of("Ane Doe", null, "978-3-16-148410-0", "'Title' can not be empty.")
 
         );
     }
@@ -99,7 +98,7 @@ class BookServiceTest {
 
         // then
         final ValidationException exception = assertThrows(
-                ValidationException.class, () -> bookService.addBook(bookDto));
+                ValidationException.class, () -> bookService.addBook(bookDto, true));
 
         assertEquals(expectedMessage, exception.getMessage());
     }

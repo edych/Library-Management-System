@@ -1,5 +1,6 @@
 package com.system.management.library.librarymanagementsystem.views;
 
+import com.system.management.library.librarymanagementsystem.MainView;
 import com.system.management.library.librarymanagementsystem.dto.BookDto;
 import com.system.management.library.librarymanagementsystem.service.BookService;
 import com.vaadin.flow.component.grid.Grid;
@@ -9,14 +10,13 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Library")
-@Route(value = "library", layout = MainLayout.class)
+@Route(value = "library", layout = MainView.class)
 public class LibraryView extends HorizontalLayout {
 
     final BookService bookService;
     final Grid<BookDto> grid;
 
     public LibraryView(final BookService bookService) {
-
         this.grid = new Grid<>(BookDto.class);
         this.bookService = bookService;
 
@@ -24,7 +24,7 @@ public class LibraryView extends HorizontalLayout {
 
         if (bookService.getAllBooks().isEmpty()) {
 
-            Div div = new Div();
+            final Div div = new Div();
             div
                     .getElement()
                     .setProperty("innerHTML",
