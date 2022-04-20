@@ -2,6 +2,8 @@ package com.system.management.library.librarymanagementsystem.controller;
 
 import com.system.management.library.librarymanagementsystem.dto.BookDto;
 import com.system.management.library.librarymanagementsystem.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,12 +32,17 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(CREATED)
+    @Operation(summary = "Add a Book.",
+            responses = {@ApiResponse(responseCode = "201", description = "Book created"),
+                    @ApiResponse(responseCode = "400", description = "One of Book fields are not valid")})
     public BookDto addBook(@RequestBody final BookDto bookDto) {
         return bookService.addBook(bookDto, true);
     }
 
     @GetMapping
     @ResponseStatus(OK)
+    @Operation(summary = "Get all Books.",
+            responses = {@ApiResponse(responseCode = "200", description = "Get all Books")})
     public List<BookDto> getAllBooks() {
         return bookService.getAllBooks();
     }
