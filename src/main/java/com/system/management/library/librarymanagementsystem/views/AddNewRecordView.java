@@ -54,7 +54,10 @@ public class AddNewRecordView extends Div {
 
         binder.addStatusChangeListener((StatusChangeListener) event -> add.setEnabled(binder.isValid()));
 
-        add.addClickListener(e -> addButtonListener());
+        add.addClickListener(e -> {
+            addButtonListener();
+            add.getUI().ifPresent(u -> u.navigate("library"));
+        });
     }
 
     private Validator<String> fieldValidator(final Consumer<String> validatorFunction) {
