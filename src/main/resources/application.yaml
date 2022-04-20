@@ -9,3 +9,6 @@ spring:
   h2:
     console:
       path: /h2
+
+vaadin:
+  urlMapping: /ui/*

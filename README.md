@@ -20,3 +20,9 @@ docker run -p 8080:8080 library-management-system
 ./mvnw clean install
 java -jar library-management-system-0.0.1-SNAPSHOT.jar
 ```
+
+### Swagger UI
+Documentation available at [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)
+
+### Postman
+There is `Library-Management-System.postman_collection.json` collection provided in the root of repository.
