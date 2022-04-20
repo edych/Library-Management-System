@@ -4,7 +4,7 @@ codecov:
 coverage:
   precision: 2
   round: down
-  range: "60...100"
+  range: "80...100"
 
   ignore:
     - "src/main/java/com/system/management/library/librarymanagementsystem/dto/*"  # ignore folders and all its contents
