@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@3.2.2
+  aws-ecr: circleci/aws-ecr@8.0.0
 
 jobs:
   build:
@@ -12,9 +13,25 @@ jobs:
       - run: chmod +x mvnw
       - run: ./mvnw clean install
       - codecov/upload
-
+      - persist_to_workspace:
+            root: .
+            paths:
+              - Dockerfile
+              - target/*.jar
 
 workflows:
   build-workflow:
     jobs:
       - build
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          create-repo: true
+          dockerfile: Dockerfile
+          path: .
+          region: AWS_REGION
+          repo: library-management-system
+          attach-workspace: true
+          requires:
+            - build
