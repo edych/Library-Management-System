@@ -1,5 +1,7 @@
-package com.system.management.library.librarymanagementsystem.views;
+package com.system.management.library.librarymanagementsystem;
 
+import com.system.management.library.librarymanagementsystem.views.AddNewRecordView;
+import com.system.management.library.librarymanagementsystem.views.LibraryView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -18,7 +20,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
 @Route
-public class MainLayout extends AppLayout {
+public class MainView extends AppLayout {
 
     public static class MenuItemInfo extends ListItem {
 
@@ -54,7 +56,7 @@ public class MainLayout extends AppLayout {
 
     private H1 viewTitle;
 
-    public MainLayout() {
+    public MainView() {
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
         addToDrawer(createDrawerContent());
