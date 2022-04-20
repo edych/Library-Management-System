@@ -8,6 +8,6 @@ public class UiController {
 
     @RequestMapping("/")
     public String ui() {
-        return "redirect:/ui";
+        return "redirect:/ui/library";
     }
 }
