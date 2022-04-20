@@ -6,11 +6,13 @@ import com.system.management.library.librarymanagementsystem.model.Book;
 import com.system.management.library.librarymanagementsystem.repository.BookRepository;
 import com.system.management.library.librarymanagementsystem.validator.BookDtoValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookService {
@@ -34,6 +36,8 @@ public class BookService {
                 .build();
 
         final Book savedBook = bookRepository.save(book);
+
+        log.info("Book added to db: {}", book.getTitle());
 
         return bookDtoMapper.toDto(savedBook);
     }
