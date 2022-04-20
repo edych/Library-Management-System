@@ -10,6 +10,7 @@ coverage:
     - "src/main/java/com/system/management/library/librarymanagementsystem/dto/*"  # ignore folders and all its contents
     - "src/main/java/com/system/management/library/librarymanagementsystem/views/*"
     - "src/main/java/com/system/management/library/librarymanagementsystem/LibraryManagementSystemApplication.java"
+    - "src/main/java/com/system/management/library/librarymanagementsystem/MainView.java"
 
 parsers:
   gcov:
