@@ -12,6 +12,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.StatusChangeListener;
 import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.Validator;
 import com.vaadin.flow.router.PageTitle;
@@ -51,6 +52,8 @@ public class AddNewRecordView extends Div {
                 .withValidator(fieldValidator(bookDtoValidator::isbnValidator))
                 .bind(BookDto::getIsbn, BookDto::setIsbn);
 
+        binder.addStatusChangeListener((StatusChangeListener) event -> add.setEnabled(binder.isValid()));
+
         add.addClickListener(e -> addButtonListener());
     }
 
@@ -70,8 +73,8 @@ public class AddNewRecordView extends Div {
         final BookDto formDto = new BookDto();
 
         binder.writeBean(formDto);
-
         bookService.addBook(formDto, true);
+
         Notification.show("Book " + formDto.getTitle() + " stored.");
         clearForm();
     }
@@ -90,6 +93,6 @@ public class AddNewRecordView extends Div {
     }
 
     private void clearForm() {
-        binder.setBean(new BookDto());
+        binder.readBean(new BookDto());
     }
 }
