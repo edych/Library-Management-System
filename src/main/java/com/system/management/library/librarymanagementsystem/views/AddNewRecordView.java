@@ -17,7 +17,6 @@ import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.Validator;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import lombok.SneakyThrows;
 
 import javax.validation.ValidationException;
 import java.util.function.Consumer;
@@ -56,7 +55,7 @@ public class AddNewRecordView extends Div {
 
         add.addClickListener(e -> {
             addButtonListener();
-            add.getUI().ifPresent(u -> u.navigate("library"));
+            add.getUI().ifPresent(u -> u.navigate(LibraryView.class));
         });
     }
 
@@ -65,21 +64,24 @@ public class AddNewRecordView extends Div {
             try {
                 validatorFunction.accept(s);
                 return ValidationResult.ok();
-            } catch (ValidationException e) {
+            } catch (final ValidationException e) {
                 return ValidationResult.error(e.getMessage());
             }
         };
     }
 
-    @SneakyThrows
     private void addButtonListener() {
-        final BookDto formDto = new BookDto();
-
-        binder.writeBean(formDto);
-        bookService.addBook(formDto, true);
-
-        Notification.show("Book " + formDto.getTitle() + " stored.");
-        clearForm();
+        try {
+            final BookDto formDto = new BookDto();
+            binder.writeBean(formDto);
+            bookService.addBook(formDto, true);
+            Notification.show("Book " + formDto.getTitle() + " stored.");
+        } catch (final com.vaadin.flow.data.binder.ValidationException e) {
+            Notification.show("Validation error when saving the book.");
+            e.printStackTrace();
+        } finally {
+            clearForm();
+        }
     }
 
     private Component createButtonLayout() {

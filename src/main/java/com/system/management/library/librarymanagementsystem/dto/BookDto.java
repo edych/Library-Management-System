@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 public class BookDto {
 
     @Schema(description = "Book author")
-    String author;
+    private String author;
 
     @Schema(description = "Book title")
-    String title;
+    private String title;
 
     @Schema(description = "Book ISBN")
-    String isbn;
+    private String isbn;
 }

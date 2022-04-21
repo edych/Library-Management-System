@@ -20,9 +20,6 @@ import org.zalando.problem.Status;
 import javax.validation.ValidationException;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/books", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -31,7 +28,7 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping
-    @ResponseStatus(CREATED)
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add a Book.",
             responses = {@ApiResponse(responseCode = "201", description = "Book created"),
                     @ApiResponse(responseCode = "400", description = "One of Book fields are not valid")})
@@ -40,7 +37,7 @@ public class BookController {
     }
 
     @GetMapping
-    @ResponseStatus(OK)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all Books.",
             responses = {@ApiResponse(responseCode = "200", description = "Get all Books")})
     public List<BookDto> getAllBooks() {

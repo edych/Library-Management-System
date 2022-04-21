@@ -16,7 +16,7 @@
             <column name="author" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
-            <column name="isbn" type="VARCHAR(13)">
+            <column name="isbn" type="VARCHAR(17)">
                 <constraints nullable="false"/>
             </column>
         </createTable>

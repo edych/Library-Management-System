@@ -36,7 +36,7 @@ public class LibraryView extends HorizontalLayout {
             listBooks();
         }
 
-        addNewRecord.addClickListener(e -> addNewRecord.getUI().ifPresent(u -> u.navigate("add-new-record")));
+        addNewRecord.addClickListener(e -> addNewRecord.getUI().ifPresent(u -> u.navigate(AddNewRecordView.class)));
     }
 
     private Component createButtonLayout() {
