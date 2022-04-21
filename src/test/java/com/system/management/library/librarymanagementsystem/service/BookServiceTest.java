@@ -74,6 +74,7 @@ class BookServiceTest {
 
         assertEquals(expectedMessage, exception.getMessage());
     }
+
     private static Stream<Arguments> provideStringsForBookDtoValidation() {
         return Stream.of(
                 Arguments.of("Ane Doe", "Title", "invalid", "Enter a valid ISBN."),
@@ -107,8 +108,8 @@ class BookServiceTest {
     void getAllBooksShouldReturnBookDtos() {
         // given
         final Book book1 = buildBook(1L, "Anne Doe", "Title", "978-3-16-148410-0");
-        final Book book2 = buildBook(2L, "Anne Doe", "Title2", "978-3-16-148410-0");
-        final Book book3 = buildBook(3L, "Anne Doe", "Title3", "978-3-16-148410-0");
+        final Book book2 = buildBook(2L, "Anne Doe", "Title2", "978-3-16-148410-1");
+        final Book book3 = buildBook(3L, "Anne Doe", "Title3", "978-3-16-148410-2");
         final List<Book> books = List.of(book1, book2, book3);
 
         // when

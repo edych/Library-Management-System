@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 public class BookDtoValidator {
 
     private static final Pattern AUTHOR_PATTERN = Pattern.compile("[a-zA-Z -]+");
+    private static final ISBNValidator ISBN_VALIDATOR = new ISBNValidator();
 
     public void authorValidator(final String value) {
         if (Objects.isNull(value) || !StringUtils.hasText(value)) {
@@ -45,8 +46,7 @@ public class BookDtoValidator {
     }
 
     public void isbnValidator(final String value) {
-        final ISBNValidator isbnValidator = new ISBNValidator();
-        final boolean isValid = isbnValidator.isValid(value);
+        final boolean isValid = ISBN_VALIDATOR.isValid(value);
 
         if (!isValid) {
             throw new ValidationException("Enter a valid ISBN.");

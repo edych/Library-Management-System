@@ -1,8 +1,10 @@
 package com.system.management.library.librarymanagementsystem.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.system.management.library.librarymanagementsystem.config.ZalandoProblemConfiguration;
 import com.system.management.library.librarymanagementsystem.dto.BookDto;
 import com.system.management.library.librarymanagementsystem.service.BookService;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,15 +14,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import javax.validation.ValidationException;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,6 +36,9 @@ class BookControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private BookService bookService;
@@ -59,20 +65,15 @@ class BookControllerTest {
 
         // then
         mockMvc.perform(post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"author\":\"" + requestBookDto.getAuthor() + "\"," +
-                        "\"title\":\"" + requestBookDto.getTitle() + "\"," +
-                        "\"isbn\":\"" + requestBookDto.getIsbn() + "\"}")
-                .accept(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(buildBodyContent(requestBookDto))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.*", hasSize(3)))
-                .andExpect(result -> assertTrue(result.getResponse().getContentAsString()
-                        .contains(resultBookDto.getAuthor())))
-                .andExpect(result -> assertTrue(result.getResponse().getContentAsString()
-                        .contains(resultBookDto.getTitle())))
-                .andExpect(result -> assertTrue(result.getResponse().getContentAsString()
-                        .contains(resultBookDto.getIsbn())));
+                .andExpect(jsonPath("$.author").value(resultBookDto.getAuthor()))
+                .andExpect(jsonPath("$.title").value(resultBookDto.getTitle()))
+                .andExpect(jsonPath("$.isbn").value(resultBookDto.getIsbn()));
     }
 
     private static Stream<Arguments> provideInputsForBookDtoValidation() {
@@ -103,18 +104,20 @@ class BookControllerTest {
         when(bookService.addBook(requestBookDto, true)).thenThrow(expectedException);
 
         // then
-        mockMvc.perform(post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"author\":\"" + requestBookDto.getAuthor() + "\"," +
-                        "\"title\":\"" + requestBookDto.getTitle() + "\"," +
-                        "\"isbn\":\"" + requestBookDto.getIsbn() + "\"}")
-                .accept(MediaType.APPLICATION_JSON))
+        final MvcResult mvcResult = mockMvc.perform(post(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(buildBodyContent(requestBookDto))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.*", hasSize(3)))
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ValidationException))
-                .andExpect(result -> assertEquals(expectedMessage,
-                        Objects.requireNonNull(result.getResolvedException()).getMessage()));
+                .andReturn();
+
+        final Exception resolvedException = mvcResult.getResolvedException();
+
+        assertNotNull(resolvedException);
+        assertInstanceOf(ValidationException.class, resolvedException);
+        assertEquals(expectedMessage, resolvedException.getMessage());
     }
 
     @Test
@@ -141,18 +144,12 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.*", hasSize(2)))
-                .andExpect(result -> assertTrue(result.getResponse().getContentAsString()
-                        .contains(book1.getAuthor())))
-                .andExpect(result -> assertTrue(result.getResponse().getContentAsString()
-                        .contains(book1.getTitle())))
-                .andExpect(result -> assertTrue(result.getResponse().getContentAsString()
-                        .contains(book1.getIsbn())))
-                .andExpect(result -> assertTrue(result.getResponse().getContentAsString()
-                        .contains(book2.getAuthor())))
-                .andExpect(result -> assertTrue(result.getResponse().getContentAsString()
-                        .contains(book2.getTitle())))
-                .andExpect(result -> assertTrue(result.getResponse().getContentAsString()
-                        .contains(book2.getIsbn())));
+                .andExpect(jsonPath("$.[0].author").value(book1.getAuthor()))
+                .andExpect(jsonPath("$.[0].title").value(book1.getTitle()))
+                .andExpect(jsonPath("$.[0].isbn").value(book1.getIsbn()))
+                .andExpect(jsonPath("$.[1].author").value(book2.getAuthor()))
+                .andExpect(jsonPath("$.[1].title").value(book2.getTitle()))
+                .andExpect(jsonPath("$.[1].isbn").value(book2.getIsbn()));
     }
 
     @Test
@@ -164,7 +161,11 @@ class BookControllerTest {
         mockMvc.perform(get(url)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.*", hasSize(0)));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @SneakyThrows
+    private String buildBodyContent(final BookDto dto) {
+        return objectMapper.writeValueAsString(dto);
     }
 }
