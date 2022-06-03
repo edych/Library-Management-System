@@ -3,9 +3,6 @@
 
 [![CircleCI](https://circleci.com/gh/edych/Library-Management-System/tree/main.svg?style=svg)](https://circleci.com/gh/edych/Library-Management-System/tree/main) [![codecov](https://codecov.io/gh/edych/Library-Management-System/branch/main/graph/badge.svg?token=ZDNRFFVSE4)](https://codecov.io/gh/edych/Library-Management-System)
 
-### Live on AWS
-* [UI on AWS](http://ec2-34-241-156-46.eu-west-1.compute.amazonaws.com/ui/library)
-* [Swagger on AWS](http://ec2-34-241-156-46.eu-west-1.compute.amazonaws.com/swagger-ui/index.html#/)
 
 ### Localhost
 * [UI](http://localhost:8080/ui/library)
