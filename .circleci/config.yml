@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@3.2.2
-  heroku: circleci/heroku@1.0.1
+  heroku: circleci/heroku@1.2.6
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
       - checkout
       - heroku/install
       - setup_remote_docker:
-          version: 18.06.0-ce
+          version: 19.03.13
       - run:
           name: Pushing to heroku registry
           command: |
