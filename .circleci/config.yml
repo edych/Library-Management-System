@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@3.2.2
-  heroku: circleci/heroku@0.0.10
+  heroku: circleci/heroku@1.0.1
 
 jobs:
   build:
@@ -13,19 +13,28 @@ jobs:
       - run: chmod +x mvnw
       - run: ./mvnw clean install
       - codecov/upload
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - run:
+          name: Storing previous commit
+          command: |
+            git rev-parse HEAD > ./commit.txt
+      - heroku/install
+      - setup_remote_docker:
+          version: 18.06.0-ce
+      - run:
+          name: Pushing to heroku registry
+          command: |
+            heroku container:login
+            heroku container:push web --arg NODE_ENV=production -a $HEROKU_APP_NAME
+            heroku container:release web -a $HEROKU_APP_NAME
 
 workflows:
   build-workflow:
     jobs:
-      - build
-  heroku_deploy:
-    jobs:
-      - build
-      - push-docker-image:
-          requires:
-            - build
-          parameters:
-            api-key:
-              default: $HEROKU_API_KEY
-            app-name:
-              default: $HEROKU_APP_NAME
+      - deploy
+        requires:
+          - build
+
