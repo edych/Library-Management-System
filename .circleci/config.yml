@@ -17,10 +17,6 @@ jobs:
     executor: heroku/default
     steps:
       - checkout
-      - run:
-          name: Storing previous commit
-          command: |
-            git rev-parse HEAD > ./commit.txt
       - heroku/install
       - setup_remote_docker:
           version: 18.06.0-ce
