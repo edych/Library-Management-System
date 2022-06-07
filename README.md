@@ -28,6 +28,7 @@ Frontend side developed with Vaadin.
 * on submitting the form, application persists new record to the database and redirects to Library page
 * each form field is validated. If any of the fields is not valid, the button ```Add``` will be deactivated, making it impossible to submit the object to the database
 
+
 <br>
 <br>
 <i>Please note that all records are removed every 3 hours.</i>
