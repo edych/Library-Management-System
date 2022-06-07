@@ -7,19 +7,20 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:11-jdk-stretch
+      - image: cimg/base:2021.07
     steps:
+      - setup_remote_docker:
+         version: 19.03.13
       - checkout
       - run: chmod +x mvnw
       - run: ./mvnw clean install
+      - run: docker build -t webapp .
       - codecov/upload
   deploy:
     executor: heroku/default
     steps:
       - checkout
       - heroku/install
-      - setup_remote_docker:
-          version: 19.03.13
       - run:
           name: Pushing to heroku registry
           command: |
