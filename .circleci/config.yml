@@ -14,12 +14,15 @@ jobs:
       - checkout
       - run: chmod +x mvnw
       - run: ./mvnw clean install
+      - run: docker build -t webapp .
       - codecov/upload
   deploy:
     executor: heroku/default
     steps:
       - checkout
       - heroku/install
+      - setup_remote_docker:
+            version: 19.03.13
       - run:
           name: Pushing to heroku registry
           command: |
