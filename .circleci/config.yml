@@ -14,7 +14,6 @@ jobs:
       - checkout
       - run: chmod +x mvnw
       - run: ./mvnw clean install
-      - run: docker build -t webapp .
       - codecov/upload
   deploy:
     executor: heroku/default
