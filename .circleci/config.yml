@@ -7,7 +7,8 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:11-jdk-stretch
+      web: Dockerfile
+      worker: worker/Dockerfile
     steps:
       - checkout
       - run: chmod +x mvnw
@@ -34,5 +35,3 @@ workflows:
       - deploy:
           requires:
             - build
-
-
