@@ -21,9 +21,11 @@ workflows:
   heroku_deploy:
     jobs:
       - build
-      - heroku/deploy-via-git:
+      - heroku/push-docker-image:
           requires:
             - build
-          filters:
-            branches:
-              only: sequential-branch-filter
+          parameters:
+            api-key:
+              default: $HEROKU_API_KEY
+            app-name:
+              default: $HEROKU_APP_NAME
