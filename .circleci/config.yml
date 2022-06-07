@@ -23,7 +23,6 @@ jobs:
       - run:
           name: Pushing to heroku registry
           command: |
-            sudo heroku auth:login
             sudo heroku container:login
             heroku container:push web --arg NODE_ENV=production -a $HEROKU_APP_NAME
             heroku container:release web -a $HEROKU_APP_NAME
