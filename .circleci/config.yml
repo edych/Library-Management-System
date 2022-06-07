@@ -19,16 +19,16 @@ jobs:
   deploy:
     executor: heroku/default
     steps:
-      - checkout
-      - heroku/install
       - setup_remote_docker:
-            version: 19.03.13
-      - run:
-          name: Pushing to heroku registry
-          command: |
-            heroku container:login
-            heroku container:push web --arg NODE_ENV=production -a $HEROKU_APP_NAME
-            heroku container:release web -a $HEROKU_APP_NAME
+          version: 19.03.13
+      - checkout
+      - run: docker build .
+      - heroku/install
+      - run: heroku container:login
+      - heroku/push-docker-image:
+          process-types: web
+      - heroku/release-docker-image:
+          process-types: web
 
 workflows:
   build-workflow:
