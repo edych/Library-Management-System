@@ -21,7 +21,7 @@ workflows:
   heroku_deploy:
     jobs:
       - build
-      - heroku/push-docker-image:
+      - push-docker-image:
           requires:
             - build
           parameters:
