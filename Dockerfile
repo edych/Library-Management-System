@@ -7,3 +7,4 @@ RUN ./mvnw dependency:go-offline
 COPY src ./src
 COPY frontend ./frontend
 CMD ["./mvnw", "spring-boot:run"]
+
