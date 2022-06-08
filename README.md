@@ -3,6 +3,9 @@
 
 [![CircleCI](https://circleci.com/gh/edych/Library-Management-System/tree/main.svg?style=svg)](https://circleci.com/gh/edych/Library-Management-System/tree/main) [![codecov](https://codecov.io/gh/edych/Library-Management-System/branch/main/graph/badge.svg?token=ZDNRFFVSE4)](https://codecov.io/gh/edych/Library-Management-System)
 
+### Live on Heroku
+* [UI on Heroku](https://system-management-library.herokuapp.com/ui/library)
+* [Swagger on Heroku](https://system-management-library.herokuapp.com/swagger-ui/index.html#/)
 
 ### Localhost
 * [UI](http://localhost:8080/ui/library)
@@ -15,7 +18,7 @@ Full stack app for library management.
 Frontend side developed with Vaadin. 
 
 
-<b>Technologies used</b>: Spring Boot, AWS ECS, AWS ECR, CircleCi, Vaadin, H2, Liquibase, Docker, Lombok, MapStruct, Swagger, Zalando Problem, codecov, Jacoco.
+<b>Technologies used</b>: Spring Boot, Heroku, CircleCi, Vaadin, H2, Liquibase, Docker, Lombok, MapStruct, Swagger, Zalando Problem, codecov, Jacoco.
 
 ### App overview
 #### Library page
