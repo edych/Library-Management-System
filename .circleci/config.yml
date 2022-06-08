@@ -22,6 +22,8 @@ jobs:
   deploy:
     executor: heroku/default
     steps:
+      - attach_workspace:
+          at: .
       - setup_remote_docker:
           version: 19.03.13
 #      - checkout
