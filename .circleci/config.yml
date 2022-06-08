@@ -26,14 +26,13 @@ jobs:
           at: .
       - setup_remote_docker:
           version: 19.03.13
-#      - checkout
       - run: ls
-#      - heroku/install
-#      - run: heroku container:login
-#      - heroku/push-docker-image:
-#          process-types: web
-#      - heroku/release-docker-image:
-#          process-types: web
+      - heroku/install
+      - run: heroku container:login
+      - heroku/push-docker-image:
+          process-types: web
+      - heroku/release-docker-image:
+          process-types: web
 
 workflows:
   build-workflow:
