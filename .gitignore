@@ -60,3 +60,4 @@ package-lock.json
 
 *.xml.versionsBackup
 /frontend/index.html
+/package.json
