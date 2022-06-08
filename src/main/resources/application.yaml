@@ -12,3 +12,6 @@ spring:
 
 vaadin:
   urlMapping: /ui/*
+
+server:
+  port: ${PORT:8080}
