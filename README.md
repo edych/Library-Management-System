@@ -44,6 +44,8 @@ Frontend side developed with Vaadin.
 
 ### Docker
 ```bash
+./mvnw clean install -Pproduction
+
 docker build -t library-management-system .
 docker run -p 8080:8080 library-management-system
 ```

@@ -26,7 +26,6 @@ jobs:
           at: .
       - setup_remote_docker:
           version: 19.03.13
-      - run: ls
       - heroku/install
       - run: heroku container:login
       - heroku/push-docker-image:
