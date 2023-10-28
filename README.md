@@ -3,10 +3,6 @@
 
 [![CircleCI](https://circleci.com/gh/edych/Library-Management-System/tree/main.svg?style=svg)](https://circleci.com/gh/edych/Library-Management-System/tree/main) [![codecov](https://codecov.io/gh/edych/Library-Management-System/branch/main/graph/badge.svg?token=ZDNRFFVSE4)](https://codecov.io/gh/edych/Library-Management-System)
 
-### Live on Heroku
-* [UI on Heroku](https://system-management-library.herokuapp.com/ui/library)
-* [Swagger on Heroku](https://system-management-library.herokuapp.com/swagger-ui/index.html#/)
-
 ### Localhost
 * [UI](http://localhost:8080/ui/library)
 * [Swagger](http://localhost:8080/swagger-ui/index.html#/)
